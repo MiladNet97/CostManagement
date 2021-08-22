@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="MiladShsavari1@gmail.com">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="money-bag.png">
+  <title>مدیریت هزینه های ماهیانه</title>
+</head>
+
+<body>
+  <!-- show message -->
+  <div id="message__box" class="d-flex flex-column align-items-center fixed-top pt-3"></div>
+
+  <!--======= ↓ Header ↓ =======-->
+  <header class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center">مدیریت هزینه های ماهیانه</h2>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--===== ↑ End Header ↑ =====-->
+
+  <!--======= ↓ Main ↓ =======-->
+  <main>
+    <div class="container">
+      <div class="row bg-brand p-3 mb-2m mx-1">
+        <section class="col-lg-6 col-md-12 d-flex flex-column justify-content-between mb-3 mb-lg-0">
+          <div id="receive__costs">
+            <h4 class="mb-4 text-center">جزئیات بودجه</h4>
+            <form class="form-inline mb-3" id="budget__form">
+              <div class="form-group">
+                <label for="user__budget">مقدار بودجه:</label>
+                <input type="number" class="form-control mx-0 mx-sm-2" placeholder="مثلا: 250,000" id="user__budget"
+                  min="0" tabindex="1">
+              </div>
+              <button class="btn btn-success px-3" id="btn__budget">افزودن</button>
+            </form>
+          </div> <!-- end receive__cost -->
+
+          <div class="costs__show">
+            <div class="alert alert-primary py-2 w-100 mb-2 text-center">
+              <p>بودجه کل: <span id="total__budget" class="ml-1">0</span>تومان</p>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="alert alert-success py-2">
+                  <p>موجودی: <span id="available__budget" class="ml-1">0</span>تومان</p>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="alert alert-success py-2">
+                  <p>مصرف شده: <span id="used__budget" class="ml-1">0</span>تومان</p>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-danger px-3 mb-2 mb-sm-0 btn-block" id="btn__clear">حذف همه</button>
+
+          </div> <!-- end costs__show -->
+        </section> <!-- end section -->
+
+        <section class="col-lg-6 col-md-12">
+          <h4 class="mb-4 text-center">وارد کردن هزینه</h4>
+          <form id="costs__form">
+            <div class="form-group">
+              <label for="costs" class="d-block">نام هزینه:</label>
+              <input type="text" class="form-control w-100 mb-3" id="cost__name" placeholder="مثلا: اجاره خانه"
+                tabindex="2">
+            </div>
+            <div class="form-group">
+              <label for="amount" class="d-block">مقدار هزینه:</label>
+              <input type="number" class="form-control w-100" id="cost__amount" placeholder="مثلا: 250,000" min="0"
+                tabindex="3">
+            </div>
+            <button class="btn btn-success btn-block" id="btn__costs">افزودن</button>
+          </form>
+        </section> <!-- end section -->
+
+        <section class="col-12 mt-4 px-0">
+          <div class="col-12">
+            <h2 class="text-center bg-brand p-3 mb-3 rounded border border-secondary">لیست هزینه ها</h2>
+            <div class="row" id="costs__box"></div> <!-- end costs__list" -->
+          </div>
+        </section> <!-- end section -->
+      </div> <!-- end row -->
+    </div> <!-- end container -->
+  </main>
+  <!--===== ↑ End Main ↑ =====-->
+
+
+  <!--======= ↓ Scripts ↓ =======-->
+  <script src="js/app.js"></script>
+</body>
+
+</html>
