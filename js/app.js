@@ -20,8 +20,8 @@ class Html {
 
   // Display total budget & available budget on html
   showBudget(amount) {
-    totalBudget.innerHTML = amount;
-    availableBudget.innerHTML = amount;
+    totalBudget.innerHTML = html.separate(amount);
+    availableBudget.innerHTML = html.separate(amount);
   }
 
   // Display costs list on html
@@ -36,7 +36,7 @@ class Html {
       <span>- ${text}</span>
     </div>
     <div class="d-flex align-items-center">
-      <p class="p-2 pr-3 pl-3"><span>${amount}</span> تومان</p>
+      <p class="p-2 pr-3 pl-3"><span>${html.separate(amount)}</span> تومان</p>
       <a class="remove__list mr-2" id="${count++}">&#x2715</a>
     </div>
     `
@@ -49,6 +49,7 @@ class Html {
       amount: amount,
       id: count - 1
     }
+
     addCostsLS(costsObj)
   }
 
@@ -62,13 +63,13 @@ class Html {
   // When calculating the budget, color is added to the alert box
   addColor(amount) {
     // If the total budget is less than 25%, the alert box changes to the danger color
-    if (amount / 4 > availableBudget.innerHTML) {
+    if (amount / 4 > html.separateRemove(availableBudget.innerHTML)) {
       availableBudget.parentElement.parentElement.classList.remove('alert-warning')
       availableBudget.parentElement.parentElement.classList.add('alert-danger')
       usedBudget.parentElement.parentElement.classList.remove('alert-warning')
       usedBudget.parentElement.parentElement.classList.add('alert-danger')
     } // If the total budget is less than 50%, the alert box changes to the warning color
-    else if (amount / 2 > availableBudget.innerHTML) {
+    else if (amount / 2 > html.separateRemove(availableBudget.innerHTML)) {
       availableBudget.parentElement.parentElement.classList.remove('alert-success')
       availableBudget.parentElement.parentElement.classList.add('alert-warning')
       usedBudget.parentElement.parentElement.classList.remove('alert-success')
@@ -79,13 +80,13 @@ class Html {
   // When removing the cost list, the color is removed from the alert box
   removeColor(amount) {
     // If the total budget is more than 25%, the alert box changes to the success color
-    if (amount / 2 < availableBudget.innerHTML) {
+    if (amount / 2 < html.separateRemove(availableBudget.innerHTML)) {
       availableBudget.parentElement.parentElement.classList.add('alert-success')
       availableBudget.parentElement.parentElement.classList.remove('alert-warning')
       usedBudget.parentElement.parentElement.classList.add('alert-success')
       usedBudget.parentElement.parentElement.classList.remove('alert-warning')
     } // If the total budget is more than 50%, the alert box changes to the warning color
-    else if (amount / 4 < availableBudget.innerHTML) {
+    else if (amount / 4 < html.separateRemove(availableBudget.innerHTML)) {
       availableBudget.parentElement.parentElement.classList.remove('alert-danger')
       availableBudget.parentElement.parentElement.classList.add('alert-warning')
       usedBudget.parentElement.parentElement.classList.remove('alert-danger')
@@ -103,6 +104,26 @@ class Html {
     usedBudget.parentElement.parentElement.classList.add('alert-success')
   }
 
+  // Adding separator to numbers
+  separate(Number) {
+    Number += '';
+    Number = Number.replace(',', '');
+    let x, y, z;
+    x = Number.split('.');
+    y = x[0];
+    z = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(y))
+      y = y.replace(rgx, '$1' + ',' + '$2');
+    return y + z;
+  }
+
+  // Removing separator from numbers
+  separateRemove(number) {
+    number = number.replace(/,\s?/g, "");
+    return Number(number)
+  }
+
 }
 
 // Everything related to budget calculation 
@@ -118,13 +139,13 @@ class Budget {
 
   // When adding cost, it calculates the available budget and the budget used
   subtractBudget(amount) {
-    availableBudget.innerHTML -= amount;
-    usedBudget.innerHTML = totalBudget.innerHTML - availableBudget.innerHTML;
-    html.addColor(totalBudget.innerHTML)
+    availableBudget.innerHTML = html.separate(html.separateRemove(availableBudget.innerHTML) - amount);
+    usedBudget.innerHTML = html.separate(html.separateRemove(totalBudget.innerHTML) - html.separateRemove(availableBudget.innerHTML));
+    html.addColor(html.separateRemove(totalBudget.innerHTML))
 
     // total budget added to local storage
     let totalObj = {
-      total: totalBudget.innerHTML
+      total: html.separateRemove(totalBudget.innerHTML)
     }
 
     let budgetDetail = getBudgetLS();
@@ -134,13 +155,13 @@ class Budget {
 
     // available budget and budget used added to local storage
     let subtractObj = {
-      available: availableBudget.innerHTML,
-      used: usedBudget.innerHTML
+      available: html.separateRemove(availableBudget.innerHTML),
+      used: html.separateRemove(usedBudget.innerHTML)
     }
 
     if (budgetDetail.length == 2) {
       budgetDetail[1].available -= amount
-      budgetDetail[1].used = totalBudget.innerHTML - availableBudget.innerHTML
+      budgetDetail[1].used = html.separateRemove(totalBudget.innerHTML) - html.separateRemove(availableBudget.innerHTML)
       localStorage.setItem("budget", JSON.stringify(budgetDetail));
     } else {
       addBudgetLS(subtractObj)
@@ -151,16 +172,16 @@ class Budget {
   removeBudget(event) {
     event.target.parentElement.parentElement.parentElement.remove()
     html.counterList()
-    let price = event.target.previousElementSibling.firstChild.innerHTML;
-    availableBudget.innerHTML = parseInt(availableBudget.innerHTML) + parseInt(price);
-    usedBudget.innerHTML = parseInt(usedBudget.innerHTML) - parseInt(price);
+    let price = html.separateRemove(event.target.previousElementSibling.firstChild.innerHTML);
+    availableBudget.innerHTML = html.separate(html.separateRemove(availableBudget.innerHTML) + price);
+    usedBudget.innerHTML = html.separate(html.separateRemove(usedBudget.innerHTML) - price);
 
-    html.removeColor(totalBudget.innerHTML)
-    removeCostLocalStorgae(Number(event.target.parentElement.children[1].id))
+    html.removeColor(html.separateRemove(totalBudget.innerHTML))
+    removeCostLocalStorgae(html.separateRemove(event.target.parentElement.children[1].id))
 
     let getBudgetFromLS = getBudgetLS();
-    getBudgetFromLS[1].available = availableBudget.innerHTML
-    getBudgetFromLS[1].used = usedBudget.innerHTML
+    getBudgetFromLS[1].available = html.separateRemove(availableBudget.innerHTML)
+    getBudgetFromLS[1].used = html.separateRemove(usedBudget.innerHTML)
     localStorage.setItem("budget", JSON.stringify(getBudgetFromLS));
   }
 
@@ -255,9 +276,9 @@ function localStorageOnload() {
     getCostsFromLS = getCostsLS();
 
   if (getBudgetFromLS.length == 2) {
-    totalBudget.innerHTML = getBudgetFromLS[0].total;
-    availableBudget.innerHTML = getBudgetFromLS[1].available;
-    usedBudget.innerHTML = getBudgetFromLS[1].used
+    totalBudget.innerHTML = html.separate(getBudgetFromLS[0].total);
+    availableBudget.innerHTML = html.separate(getBudgetFromLS[1].available);
+    usedBudget.innerHTML = html.separate(getBudgetFromLS[1].used)
     btnClear.disabled = false;
     btnBudget.disabled = true;
   }
@@ -273,7 +294,7 @@ function localStorageOnload() {
       <span>- ${item.text}</span>
     </div>
     <div class="d-flex align-items-center">
-      <p class="p-2 pr-3 pl-3"><span>${item.amount}</span> تومان</p>
+      <p class="p-2 pr-3 pl-3"><span>${html.separate(item.amount)}</span> تومان</p>
       <a class="remove__list mr-2" id="${item.id}">&#x2715</a>
     </div>
     `
@@ -283,7 +304,7 @@ function localStorageOnload() {
 
   })
 
-  html.addColor(totalBudget.innerHTML)
+  html.addColor(html.separateRemove(totalBudget.innerHTML))
 }
 
 /* -------------[ Event Listeners ]-------------*/
