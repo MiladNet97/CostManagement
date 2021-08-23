@@ -33,11 +33,11 @@ class Html {
     div.innerHTML = `
     <div class="d-flex align-items-center">
       <span id="number"></span>
-      <span>- ${text}</span>
+      <span class="costs__text">- ${text}</span>
     </div>
     <div class="d-flex align-items-center">
-      <p class="p-2 pr-3 pl-3"><span>${html.separate(amount)}</span> تومان</p>
-      <a class="remove__list mr-2" id="${count++}">&#x2715</a>
+      <p class="p-2 pr-3 pl-3 costs__price"><span>${html.separate(amount)}</span> تومان</p>
+      <a class="remove__list mr-2 noPrint" id="${count++}">&#x2715</a>
     </div>
     `
     box.appendChild(div)
@@ -215,7 +215,7 @@ let budgetForm = document.querySelector('#budget__form'),
   btnClear = document.querySelector('#btn__clear'),
   html = new Html(),
   count = 1,
-  budget;
+  budget, printer = document.querySelector('.print__icon');
 
 
 /* -------------[ Functiones ]-------------*/
@@ -291,11 +291,11 @@ function localStorageOnload() {
     div.innerHTML = `
     <div class="d-flex align-items-center">
       <span id="number"></span>
-      <span>- ${item.text}</span>
+      <span class="costs__text">- ${item.text}</span>
     </div>
     <div class="d-flex align-items-center">
-      <p class="p-2 pr-3 pl-3"><span>${html.separate(item.amount)}</span> تومان</p>
-      <a class="remove__list mr-2" id="${item.id}">&#x2715</a>
+      <p class="p-2 pr-3 pl-3 costs__price"><span>${html.separate(item.amount)}</span> تومان</p>
+      <a class="remove__list mr-2 noPrint" id="${item.id}">&#x2715</a>
     </div>
     `
     box.appendChild(div)
@@ -350,6 +350,10 @@ btnClear.disabled = true;
 btnClear.addEventListener('click', e => {
   budget = new Budget()
   budget.clearBudget(e)
+})
+
+printer.addEventListener('click', () => {
+  window.print()
 })
 
 document.addEventListener('DOMContentLoaded', localStorageOnload)

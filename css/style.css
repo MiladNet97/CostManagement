@@ -1,5 +1,7 @@
 *,
-p {
+p,
+h2,
+a {
   outline: 0;
   border: 0;
   padding: 0;
@@ -10,14 +12,14 @@ p {
 
 .btn:focus {
   outline: none;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 body {
   direction: rtl;
   text-align: right;
   width: 100%;
-  min-height: 100vh;
   font-family: IRANSans;
   background: #4FC3F7;
   background: url('../macos-big-sur-apple-layers-fluidic-colorful-.jpg') fixed no-repeat;
@@ -30,8 +32,9 @@ h2 {
 }
 
 .bg-brand {
-  background: rgba(48, 48, 48, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
+  background: rgba(38, 38, 38, 0.2);
+  -webkit-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
   backdrop-filter: blur(11.0px);
   -webkit-backdrop-filter: blur(11.0px);
   border-radius: 10px;
@@ -56,4 +59,43 @@ h2 {
 
 span#number {
   margin-left: 2px;
+}
+
+.print__icon img {
+  width: 22px;
+  height: 22px;
+  max-width: 100%;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  -webkit-user-drag: none;
+}
+
+.print__icon img:hover {
+  -webkit-transform: scale(1.1);
+      -ms-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+
+  * {
+    border-color: rgb(0 0 0 / 18%) !important;
+  }
+
+  .container {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    max-width: 100%;
+  }
+
+  .costs__text,
+  .costs__price,
+  .costs__title {
+    color: #90A4AE !important;
+  }
 }
