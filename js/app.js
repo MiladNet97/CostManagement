@@ -183,6 +183,7 @@ class Budget {
     getBudgetFromLS[1].available = html.separateRemove(availableBudget.innerHTML)
     getBudgetFromLS[1].used = html.separateRemove(usedBudget.innerHTML)
     localStorage.setItem("budget", JSON.stringify(getBudgetFromLS));
+    html.showMessage('هزینه با موفقیت پاک شد', 'danger')
   }
 
   // Clearing the budget and cost list
