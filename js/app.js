@@ -51,6 +51,8 @@ class Html {
     }
 
     addCostsLS(costsObj)
+
+    if (costsBox.children.length > 0) document.querySelector('#search__box').style.display = 'flex';
   }
 
   // Adding the counter to the cost list
@@ -184,6 +186,7 @@ class Budget {
     getBudgetFromLS[1].used = html.separateRemove(usedBudget.innerHTML)
     localStorage.setItem("budget", JSON.stringify(getBudgetFromLS));
     html.showMessage('هزینه با موفقیت پاک شد', 'danger')
+    if (!costsBox.children.length > 0) document.querySelector('#search__box').style.display = 'none';
   }
 
   // Clearing the budget and cost list
@@ -200,6 +203,7 @@ class Budget {
         costsBox.firstChild.remove()
       }
       clearLocalStorgae()
+      document.querySelector('#search__box').style.display = 'none';
     }
   }
 }
@@ -216,7 +220,8 @@ let budgetForm = document.querySelector('#budget__form'),
   btnClear = document.querySelector('#btn__clear'),
   html = new Html(),
   count = 1,
-  budget, printer = document.querySelector('.print__icon');
+  budget, printer = document.querySelector('.print__icon'),
+  searchInput = document.querySelector('#search__input');
 
 
 /* -------------[ Functiones ]-------------*/
@@ -305,6 +310,7 @@ function localStorageOnload() {
 
   })
 
+  if (costsBox.children.length > 0) document.querySelector('#search__box').style.display = 'flex';
   html.addColor(html.separateRemove(totalBudget.innerHTML))
 }
 
@@ -355,6 +361,18 @@ btnClear.addEventListener('click', e => {
 
 printer.addEventListener('click', () => {
   window.print()
+})
+
+searchInput.addEventListener('keyup', () => {
+  let searchValue = searchInput.value.toLowerCase(),
+    costItem = costsBox.querySelectorAll('.costs__list')
+  Array.from(costItem).forEach(item => {
+    let textItem = item.firstChild.firstChild.nextElementSibling.querySelector('.costs__text').innerHTML.toLowerCase()
+    // Show that element if the cost text is the same as the search input
+    if (textItem.slice(1, textItem.length).indexOf(searchValue) > -1) item.style.display = ''
+    else item.style.display = 'none';
+  })
+
 })
 
 document.addEventListener('DOMContentLoaded', localStorageOnload)

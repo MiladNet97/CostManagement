@@ -13,7 +13,7 @@ a {
 .btn:focus {
   outline: none;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 body {
@@ -34,7 +34,7 @@ h2 {
 .bg-brand {
   background: rgba(38, 38, 38, 0.2);
   -webkit-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.35);
   backdrop-filter: blur(11.0px);
   -webkit-backdrop-filter: blur(11.0px);
   border-radius: 10px;
@@ -74,8 +74,12 @@ span#number {
 
 .print__icon img:hover {
   -webkit-transform: scale(1.1);
-      -ms-transform: scale(1.1);
-          transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+#search__box {
+  display: none;
 }
 
 @media print {
